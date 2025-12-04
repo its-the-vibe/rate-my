@@ -1,0 +1,13 @@
+# Binaries
+rate-my
+
+# Log files
+ratings.log
+*.log
+
+# IDE
+.idea/
+.vscode/
+
+# OS
+.DS_Store
