@@ -12,7 +12,7 @@ A simple web service that allows users to submit 1-5 star ratings for various ev
 
 ### Prerequisites
 
-- Go 1.21 or later
+- Go 1.22 or later
 
 ### Installation
 

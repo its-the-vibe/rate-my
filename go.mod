@@ -1,3 +1,3 @@
 module github.com/its-the-vibe/rate-my
 
-go 1.24.10
+go 1.22

@@ -66,11 +66,11 @@ func handleRate(w http.ResponseWriter, r *http.Request) {
 		rating.Timestamp = time.Now().UTC().Format(time.RFC3339)
 	}
 
-	// Log to stdout
+	// Log to stdout (primary logging)
 	logLine := fmt.Sprintf("[%s] Event: %s, Rating: %d\n", rating.Timestamp, rating.Event, rating.Rating)
 	fmt.Print(logLine)
 
-	// Append to file
+	// Append to file (secondary logging - non-fatal if it fails)
 	if _, err := logFile.WriteString(logLine); err != nil {
 		log.Printf("Failed to write to log file: %v", err)
 	}
