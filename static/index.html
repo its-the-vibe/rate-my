@@ -11,7 +11,7 @@
             padding: 0;
         }
         
-        html, body {
+        html {
             overflow: hidden;
             position: fixed;
             width: 100%;
@@ -19,11 +19,18 @@
             touch-action: manipulation;
             overscroll-behavior: none;
             -webkit-overflow-scrolling: auto;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background-attachment: fixed;
         }
         
         body {
+            overflow: hidden;
+            width: 100%;
+            height: 100%;
+            touch-action: manipulation;
+            overscroll-behavior: none;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: transparent;
             display: flex;
             justify-content: center;
             align-items: center;
