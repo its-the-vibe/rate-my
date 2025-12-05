@@ -67,11 +67,11 @@ func handleRate(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Log to stdout (primary logging)
-	logLine := fmt.Sprintf("[%s] Event: %s, Rating: %d\n", rating.Timestamp, rating.Event, rating.Rating)
-	fmt.Print(logLine)
+	logLine, _ := json.Marshal(rating)
+	fmt.Println(string(logLine))
 
 	// Append to file (secondary logging - non-fatal if it fails)
-	if _, err := logFile.WriteString(logLine); err != nil {
+	if _, err := logFile.WriteString(string(logLine) + "\n"); err != nil {
 		log.Printf("Failed to write to log file: %v", err)
 	}
 
