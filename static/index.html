@@ -247,6 +247,8 @@
     </div>
     
     <script>
+        const AUTO_DISMISS_DELAY_MS = 5000;
+        
         let selectedRating = 0;
         const stars = document.querySelectorAll('.star');
         const submitBtn = document.getElementById('submitBtn');
@@ -288,10 +290,10 @@
             popupMessage.textContent = messageText;
             popupOverlay.classList.add('show');
             
-            // Auto-dismiss after 5 seconds
+            // Auto-dismiss after configured delay
             autoCloseTimeout = setTimeout(() => {
                 hidePopup();
-            }, 5000);
+            }, AUTO_DISMISS_DELAY_MS);
         }
         
         // Hide popup
