@@ -129,6 +129,94 @@
             color: #721c24;
             display: block;
         }
+        
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        
+        .popup-overlay.show {
+            display: flex;
+        }
+        
+        .popup {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 350px;
+            width: 90%;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            animation: slideIn 0.3s ease-out;
+            position: relative;
+        }
+        
+        .popup-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+        
+        .popup-title {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        
+        .popup-message {
+            font-size: 1rem;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        
+        .popup-close {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .popup-close:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .popup-close:active {
+            transform: translateY(0);
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateY(-30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
     </style>
 </head>
 <body>
@@ -149,11 +237,24 @@
         <div id="message" class="message"></div>
     </div>
     
+    <div id="popupOverlay" class="popup-overlay">
+        <div class="popup">
+            <div class="popup-icon">✓</div>
+            <div class="popup-title">Rating Submitted!</div>
+            <div class="popup-message" id="popupMessage"></div>
+            <button class="popup-close" id="popupClose">OK</button>
+        </div>
+    </div>
+    
     <script>
         let selectedRating = 0;
         const stars = document.querySelectorAll('.star');
         const submitBtn = document.getElementById('submitBtn');
         const message = document.getElementById('message');
+        const popupOverlay = document.getElementById('popupOverlay');
+        const popupMessage = document.getElementById('popupMessage');
+        const popupClose = document.getElementById('popupClose');
+        let autoCloseTimeout;
         
         // Handle star hover
         stars.forEach(star => {
@@ -182,6 +283,40 @@
             });
         }
         
+        // Show popup
+        function showPopup(messageText) {
+            popupMessage.textContent = messageText;
+            popupOverlay.classList.add('show');
+            
+            // Auto-dismiss after 5 seconds
+            autoCloseTimeout = setTimeout(() => {
+                hidePopup();
+            }, 5000);
+        }
+        
+        // Hide popup
+        function hidePopup() {
+            popupOverlay.classList.remove('show');
+            if (autoCloseTimeout) {
+                clearTimeout(autoCloseTimeout);
+            }
+            
+            // Reset UI after popup closes
+            selectedRating = 0;
+            highlightStars(0, 'active');
+            submitBtn.disabled = true;
+        }
+        
+        // Close popup on button click
+        popupClose.addEventListener('click', hidePopup);
+        
+        // Close popup on overlay click (clicking outside the popup)
+        popupOverlay.addEventListener('click', (e) => {
+            if (e.target === popupOverlay) {
+                hidePopup();
+            }
+        });
+        
         // Handle submit
         submitBtn.addEventListener('click', async () => {
             if (selectedRating === 0) return;
@@ -206,16 +341,8 @@
                 });
                 
                 if (response.ok) {
-                    message.textContent = `Thank you! You rated your tube journey ${selectedRating} star${selectedRating > 1 ? 's' : ''}.`;
-                    message.className = 'message success';
-                    
-                    // Reset after success
-                    setTimeout(() => {
-                        selectedRating = 0;
-                        highlightStars(0, 'active');
-                        message.className = 'message';
-                        message.style.display = 'none';
-                    }, 3000);
+                    const messageText = `Thank you! You rated your tube journey ${selectedRating} star${selectedRating > 1 ? 's' : ''}.`;
+                    showPopup(messageText);
                 } else {
                     throw new Error('Failed to submit rating');
                 }
