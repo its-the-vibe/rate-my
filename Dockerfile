@@ -2,7 +2,7 @@
 FROM golang:1.25.5-alpine AS builder
 WORKDIR /app
 COPY . .
-RUN go build -o rate-my .
+RUN CGO_ENABLED=0 GOOS=linux go build -o rate-my
 
 # Final stage
 FROM scratch AS runtime
