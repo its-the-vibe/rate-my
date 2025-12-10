@@ -1,0 +1,10 @@
+version: '3.8'
+services:
+  rate-my:
+    build: .
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./ratings.log:/app/ratings.log
+    environment:
+      - PORT=8080
