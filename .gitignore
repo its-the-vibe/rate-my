@@ -11,3 +11,5 @@ ratings.log
 
 # OS
 .DS_Store
+
+.env
