@@ -49,7 +49,8 @@ Submit a rating for an event.
 {
   "timestamp": "2024-01-15T10:30:00Z",
   "event": "tube journey",
-  "rating": 4
+  "rating": 4,
+  "comment": "Smooth ride, no delays!"
 }
 ```
 
@@ -58,6 +59,7 @@ Submit a rating for an event.
 | timestamp | string | ISO 8601 timestamp (optional, defaults to current time) |
 | event | string | The event being rated (e.g., "tube journey") |
 | rating | integer | Rating from 1 to 5 |
+| comment | string | Additional feedback (optional) |
 
 **Response:**
 
