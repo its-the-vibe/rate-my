@@ -1,5 +1,3 @@
 module github.com/its-the-vibe/rate-my
 
 go 1.26.1
-
-toolchain go1.26.1
