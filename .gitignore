@@ -13,3 +13,4 @@ ratings.log
 .DS_Store
 
 .env
+config/redis.yml
