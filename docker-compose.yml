@@ -2,6 +2,8 @@ services:
   rate-my:
     build: .
     read_only: true
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     ports:
       - "${PORT-8080}:8080"
     volumes:
