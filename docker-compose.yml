@@ -6,4 +6,5 @@ services:
       - "${PORT-8080}:8080"
     volumes:
       - ./ratings.log:/app/ratings.log
+      - ./config/redis.yml:/app/config/redis.yml:ro
     restart: on-failure:10
