@@ -14,7 +14,7 @@ type Rating struct {
 	Timestamp string `json:"timestamp"`
 	Event     string `json:"event"`
 	Rating    int    `json:"rating"`
-	Comment   string `json:"comment,omitempty"`
+	Comment   string `json:"comment"`
 }
 
 func main() {
