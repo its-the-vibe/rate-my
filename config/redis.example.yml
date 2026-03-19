@@ -1,0 +1,2 @@
+host: "localhost:6379"
+list: "ratings"

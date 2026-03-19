@@ -7,6 +7,7 @@ A simple web service that allows users to submit 1-5 star ratings for various ev
 - Single page web interface with star rating selection (1-5 stars)
 - REST API endpoint for submitting ratings
 - Logging to stdout and file (`ratings.log`)
+- Optional Redis integration: each log line is pushed to a configurable Redis list via `RPUSH`
 
 ## Getting Started
 
@@ -80,16 +81,48 @@ Log format:
 [2024-01-15T10:30:00Z] Event: tube journey, Rating: 4
 ```
 
+## Redis Integration (optional)
+
+Each log line can be pushed to an external Redis list via `RPUSH`.
+
+### Configuration
+
+1. Copy the example config and fill in your Redis host and list name:
+   ```bash
+   cp config/redis.example.yml config/redis.yml
+   # edit config/redis.yml
+   ```
+
+2. Copy the example `.env` and set your Redis password:
+   ```bash
+   cp .env.example .env
+   # edit .env and set REDIS_PASSWORD
+   ```
+
+`config/redis.yml` and `.env` are gitignored and must never be committed.
+
+### `config/redis.yml` format
+
+```yaml
+host: "your-redis-host:6379"
+list: "ratings"
+```
+
+If `config/redis.yml` is absent, the application starts normally without Redis.
+
 ## Project Structure
 
 ```
 rate-my/
-├── main.go          # Go web server
+├── main.go                    # Go web server
 ├── static/
-│   └── index.html   # Single page web interface
-├── go.mod           # Go module file
-├── ratings.log      # Rating log file (created on first submission)
-└── README.md        # This file
+│   └── index.html             # Single page web interface
+├── config/
+│   └── redis.example.yml      # Example Redis configuration
+├── go.mod                     # Go module file
+├── .env.example               # Example environment variables
+├── ratings.log                # Rating log file (created on first submission)
+└── README.md                  # This file
 ```
 
 ## Future Enhancements
