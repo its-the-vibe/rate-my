@@ -1,5 +1,7 @@
 # Rate My
 
+[![CI](https://github.com/its-the-vibe/rate-my/actions/workflows/ci.yml/badge.svg)](https://github.com/its-the-vibe/rate-my/actions/workflows/ci.yml)
+
 A simple web service that allows users to submit 1-5 star ratings for various events or occurrences.
 
 ## Features
