@@ -4,6 +4,7 @@ services:
     read_only: true
     image: ghcr.io/its-the-vibe/rate-my:latest
     pull_policy: always
+    user: "${UID:-65532}:${GID:-65532}"
     extra_hosts:
       - "host.docker.internal:host-gateway"
     ports:
