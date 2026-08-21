@@ -2,6 +2,8 @@ services:
   rate-my:
     build: .
     read_only: true
+    image: ghcr.io/its-the-vibe/rate-my:latest
+    pull_policy: always
     extra_hosts:
       - "host.docker.internal:host-gateway"
     ports:

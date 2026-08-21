@@ -2,43 +2,14 @@ name: CI
 
 on:
   push:
-    branches: ["**"]
+    branches: [ main ]
   pull_request:
-    branches: ["**"]
+    branches: [ main ]
 
 jobs:
-  build-and-test:
-    name: Build and Test
-    runs-on: ubuntu-latest
+  call-common-ci:
+    uses: its-the-vibe/.github/.github/workflows/common-ci.yaml@main
     permissions:
       contents: read
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Go
-        uses: actions/setup-go@v5
-        with:
-          go-version-file: go.mod
-
-      - name: Download dependencies
-        run: go mod download
-
-      - name: Lint (go vet)
-        run: go vet ./...
-
-      - name: Check formatting
-        run: |
-          unformatted=$(gofmt -l .)
-          if [ -n "$unformatted" ]; then
-            echo "The following files are not formatted:"
-            echo "$unformatted"
-            exit 1
-          fi
-
-      - name: Build
-        run: go build -o rate-my .
-
-      - name: Test
-        run: go test ./...
+      packages: write
+    secrets: inherit
