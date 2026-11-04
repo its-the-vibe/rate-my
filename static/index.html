@@ -137,6 +137,36 @@
             font-size: 0.9rem;
             margin-bottom: 6px;
         }
+
+        .date-time-options {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .date-time-options summary {
+            color: #666;
+            font-size: 0.85rem;
+            cursor: pointer;
+        }
+
+        .date-time-options[open] summary {
+            margin-bottom: 10px;
+        }
+
+        .date-time-field {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            font-family: inherit;
+            color: #333;
+        }
+
+        .date-time-field:focus {
+            outline: none;
+            border-color: #667eea;
+        }
         
         .message {
             margin-top: 20px;
@@ -261,6 +291,12 @@
         
         <label class="comment-label" for="commentField">Comment (optional)</label>
         <textarea id="commentField" class="comment-field" placeholder="Share more about your experience..." aria-label="Optional comment about your experience"></textarea>
+
+        <details class="date-time-options">
+            <summary>Rate a past journey?</summary>
+            <label class="comment-label" for="timestampField">Date and time</label>
+            <input id="timestampField" class="date-time-field" type="datetime-local">
+        </details>
         
         <button id="submitBtn" disabled>Submit Rating</button>
         
@@ -283,6 +319,8 @@
         const stars = document.querySelectorAll('.star');
         const submitBtn = document.getElementById('submitBtn');
         const commentField = document.getElementById('commentField');
+        const timestampField = document.getElementById('timestampField');
+        const dateTimeOptions = document.querySelector('.date-time-options');
         const message = document.getElementById('message');
         const popupOverlay = document.getElementById('popupOverlay');
         const popupMessage = document.getElementById('popupMessage');
@@ -339,6 +377,8 @@
             highlightStars(0, 'active');
             submitBtn.disabled = true;
             commentField.value = '';
+            timestampField.value = '';
+            dateTimeOptions.open = false;
         }
         
         // Close popup on button click
@@ -360,11 +400,14 @@
             message.style.display = 'none';
             
             const payload = {
-                timestamp: new Date().toISOString(),
                 event: 'tube journey',
                 rating: selectedRating
             };
-            
+
+            if (timestampField.value) {
+                payload.timestamp = new Date(timestampField.value).toISOString();
+            }
+
             const comment = commentField.value.trim();
             if (comment) {
                 payload.comment = comment;
